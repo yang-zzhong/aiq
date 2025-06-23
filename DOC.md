@@ -494,9 +494,9 @@ Bash
 
 Common Options:
 
-# ./build/event_queue_server (uses config.yaml in the current directory if it exists)
-# ./build/event_queue_server -c /path/to/your/custom_config.yaml
-# ./build/event_queue_server --http-port 8081 --data-dir /mnt/event_data
+* ./build/event_queue_server (uses config.yaml in the current directory if it exists)
+* ./build/event_queue_server -c /path/to/your/custom_config.yaml
+* ./build/event_queue_server --http-port 8081 --data-dir /mnt/event_data
 The server will log its startup information, enabled protocols, and listening ports to the console. Press Ctrl+C to initiate a graceful shutdown.
 
 ## 6. Client Examples
