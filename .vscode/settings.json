@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "*.go": "go",
+    "optional": "cpp",
+    "set": "cpp"
+  }
+}

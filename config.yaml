@@ -1,0 +1,101 @@
+# Test Configuration for Persistent Event Queue Server
+# This file is designed to exercise different features and settings.
+
+server_name: "EventQueue Test Instance"
+log_level: "debug" # Use a more verbose log level for testing
+
+# Use a separate data directory for tests to avoid interfering with production/dev data
+data_directory: "./.local/event_queue_test_data"
+
+# Test with a small, fixed number of threads
+thread_pool_size: 2
+
+# --- TCP Server Test Configurations ---
+tcp_server:
+  enabled: true       # Enable TCP server for testing
+  host: "127.0.0.1"   # Bind to localhost for isolated testing
+  port: 22345         # Use a distinct test port
+
+# --- HTTP/HTTPS Server Test Configurations ---
+http_server:
+  enabled: true       # Enable HTTP server for testing
+  host: "127.0.0.1"   # Bind to localhost
+  port: 28080         # Distinct test port for HTTP
+
+  # To test HTTPS:
+  # 1. Generate self-signed certificates (e.g., server.crt, server.key)
+  #    openssl genpkey -algorithm RSA -out server.key -pkeyopt rsa_keygen_bits:2048
+  #    openssl req -new -key server.key -out server.csr -subj "/CN=localhost.test"
+  #    openssl x509 -req -days 30 -in server.csr -signkey server.key -out server.crt
+  # 2. Place them in a known location (e.g., ./test_certs/)
+  # 3. Uncomment and update paths below.
+  # ssl_cert_path: "./test_certs/server.crt" # Path relative to where server runs, or absolute
+  # ssl_key_path: "./test_certs/server.key"
+  # If ssl_cert_path and ssl_key_path are provided and valid, HttpServer should attempt HTTPS.
+
+# --- WebSocket Server Test Configurations ---
+websocket_server:
+  enabled: true       # Enable WebSocket server for testing
+  host: "127.0.0.1"   # Bind to localhost
+  port: 29090         # Distinct test port
+
+# --- Test Scenarios (Comment/Uncomment sections to test specific setups) ---
+
+# Scenario: Only TCP enabled
+# tcp_server:
+#   enabled: true
+#   host: "0.0.0.0"
+#   port: 12345
+# http_server:
+#   enabled: false
+# websocket_server:
+#   enabled: false
+
+# Scenario: Only HTTP (no SSL) enabled
+# tcp_server:
+#   enabled: false
+# http_server:
+#   enabled: true
+#   host: "0.0.0.0"
+#   port: 8080
+# websocket_server:
+#   enabled: false
+
+# Scenario: HTTPS enabled (requires certs to be set up)
+# tcp_server:
+#   enabled: false
+# http_server:
+#   enabled: true
+#   host: "0.0.0.0"
+#   port: 8443 # Common HTTPS port for testing
+#   ssl_cert_path: "./test_certs/server.crt"
+#   ssl_key_path: "./test_certs/server.key"
+# websocket_server:
+#   enabled: false
+
+# Scenario: All servers disabled (to test startup/shutdown with no active listeners)
+# tcp_server:
+#   enabled: false
+# http_server:
+#   enabled: false
+# websocket_server:
+#   enabled: false
+# data_directory: "./event_queue_empty_test_data" # Use a different dir to check empty startup
+
+# --- Placeholder for Future/Advanced Test Settings ---
+# These are not used by the current main_server.cpp but illustrate extensibility.
+# advanced_settings:
+#   max_topic_partitions: 1 # For testing with single partition behavior initially
+#   default_replication_factor: 1
+#   enable_metrics_endpoint: false # e.g., a /metrics HTTP endpoint
+#   connection_timeout_ms: 5000
+#   max_message_size_bytes: 1048576 # 1MB
+
+# topic_specific_configs:
+#   - name: "high_throughput_topic"
+#     retention_ms: 3600000 # 1 hour
+#     segment_bytes: 536870912 # 512MB
+#   - name: "low_latency_logs"
+#     retention_ms: 86400000 # 1 day
+#     flush_messages: 1 # Flush after every message (for testing persistence)
+#     flush_ms: 100
