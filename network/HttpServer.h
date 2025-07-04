@@ -29,7 +29,6 @@ private:
     void handle_consume(const httplib::Request& req, httplib::Response& res);
     void handle_create_topic(const httplib::Request& req, httplib::Response& res);
     void handle_list_topics(const httplib::Request& req, httplib::Response& res);
-    void handle_get_next_offset(const httplib::Request& req, httplib::Response& res);
     
     // --- SSE Handler ---
     void handle_stream_topic(const httplib::Request& req, httplib::Response& res);

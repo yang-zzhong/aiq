@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.16) # Increased for FetchContent if used, 3.14 is fine otherwise
 project(PersistentEventQueueServer LANGUAGES CXX)
 
+set(CMAKE_BUILD_TYPE Debug)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS OFF) # Good practice
@@ -99,6 +101,7 @@ include_directories(
 add_library(event_queue_core_lib STATIC
     ${CORE_DIR}/Topic.cpp
     ${CORE_DIR}/EventQueue.cpp
+    ${CORE_DIR}/LocalEventQueue.cpp
     ${CORE_DIR}/BinaryUtils.cpp
     # Message.h and BinaryUtils.h are assumed header-only or included where needed
 )

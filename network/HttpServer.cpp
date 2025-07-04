@@ -71,10 +71,6 @@ void HttpServer::setup_routes() {
     server_->Get("/topics", [this](const httplib::Request& req, httplib::Response& res) {
         handle_list_topics(req, res);
     });
-    server_->Get(R"(/topics/([^/]+)/next_offset)", [this](const httplib::Request& req, httplib::Response& res) {
-        handle_get_next_offset(req, res);
-    });
-
     // --- SSE Route ---
     server_->Get(R"(/topics/([^/]+)/stream)", [this](const httplib::Request& req, httplib::Response& res) {
         handle_stream_topic(req, res);
@@ -189,18 +185,6 @@ void HttpServer::handle_list_topics(const httplib::Request& req, httplib::Respon
         send_error_response(res, 500, e.what());
     }
 }
-
-void HttpServer::handle_get_next_offset(const httplib::Request& req, httplib::Response& res) {
-    std::string topic_name = req.matches[1].str();
-    if (topic_name.empty()) return send_error_response(res, 400, "Topic name missing.");
-    try {
-        uint64_t offset = event_queue_.get_next_topic_offset(topic_name);
-        send_json_response(res, 200, {{"topic", topic_name}, {"next_offset", offset}});
-    } catch (const std::exception& e) {
-        send_error_response(res, 500, e.what());
-    }
-}
-
 
 // SSE Handler (Simple Polling - needs improvement for production)
 void HttpServer::handle_stream_topic(const httplib::Request& req, httplib::Response& res) {

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libevent_queue_core_lib.a CMakeFiles/event_queue_core_lib.dir/event_queue_core/Topic.cpp.o CMakeFiles/event_queue_core_lib.dir/event_queue_core/EventQueue.cpp.o CMakeFiles/event_queue_core_lib.dir/event_queue_core/BinaryUtils.cpp.o
-/usr/bin/ranlib libevent_queue_core_lib.a
